@@ -156,6 +156,28 @@
 
   .catpill{color:#fff; font-size:14.5px; font-weight:600; padding:9px 18px; border-radius:999px;
     border:1px solid rgba(255,255,255,.22);}
+
+  /* Participation lifecycle */
+  .lifecycle{display:grid; grid-template-columns:repeat(7,minmax(86px,1fr)); align-items:start;
+    max-width:860px; margin:54px auto 0; position:relative;}
+  .lifecycle:before{content:""; position:absolute; left:7%; right:7%; top:28px; height:2px;
+    background:linear-gradient(90deg,var(--gold),#E2CF86);}
+  .life-stage{position:relative; z-index:1; padding:0 6px; text-align:center;}
+  .life-node{width:56px; height:56px; margin:0 auto; border-radius:50%; display:grid; place-items:center;
+    background:#fff; border:2px solid var(--gold); box-shadow:0 0 0 7px var(--canvas); font-size:23px;}
+  .life-label{margin-top:15px; font-size:13px; line-height:1.25; font-weight:700; letter-spacing:-.01em;}
+  .life-takeaway{max-width:760px; margin:56px auto 0; padding-top:26px; border-top:1px solid var(--line);
+    font-size:clamp(19px,3vw,25px); line-height:1.35; font-weight:700; letter-spacing:-.025em;}
+  @media(max-width:680px){
+    .lifecycle{grid-template-columns:1fr; gap:0; max-width:340px; margin-top:38px;}
+    .lifecycle:before{left:27px; right:auto; top:28px; bottom:28px; width:2px; height:auto;
+      background:linear-gradient(var(--gold),#E2CF86);}
+    .life-stage{display:grid; grid-template-columns:56px 1fr; align-items:center; gap:18px; padding:0 0 20px; text-align:left;}
+    .life-stage:last-child{padding-bottom:0;}
+    .life-node{margin:0; box-shadow:0 0 0 6px var(--canvas);}
+    .life-label{margin:0; font-size:15px;}
+    .life-takeaway{margin-top:38px;}
+  }
 </style>
 </head>
 <body>
@@ -235,7 +257,7 @@ var CATPEEK = {
   "Live Events":["Win front-row seats and backstage passes for the next stop on the tour.","Vote the encore setlist into existence — then watch it happen live.","Record your section's fan chant — the best one plays in the arena.","Design this tour's limited merch drop — the winning design sells at the venue, credited."]
 };
 var MOSAIC_ICONS = ["🎭","🎨","✍️","📷","🎬","🎤","😂","🎵","🐶","☕","🛸","📝"];
-var SCENES = ["cold","worldtype","storyworld","entry","power","experience","create","mosaic","ai","continues","win","local","beyond","creator","end"];
+var SCENES = ["cold","worldtype","storyworld","entry","power","experience","create","mosaic","ai","win","local","beyond","creator","lifecycle","end"];
 var DARK = {cold:1, mosaic:1, end:1, entry:1};
 
 // ————— State —————
@@ -695,6 +717,32 @@ function scCreator(){
   '</div>';
 }
 
+function scLifecycle(){
+  var el = document.getElementById("scene");
+  el.className = "scene";
+  var stages = [
+    ["📣","Announcement"],
+    ["📝","Pre-Production"],
+    ["🎬","Production"],
+    ["✨","Release"],
+    ["↻","Between Seasons"],
+    ["🌱","Sequels / Spinoffs"],
+    ["∞","Evergreen Community"]
+  ];
+  var timeline = stages.map(function(stage, i){
+    return '<div class="life-stage rise" style="animation-delay:' + (i*85) + 'ms">' +
+      '<div class="life-node">' + stage[0] + '</div>' +
+      '<div class="life-label">' + stage[1] + '</div>' +
+    '</div>';
+  }).join("");
+  el.innerHTML = '<div class="wrap wide">' +
+    '<div class="eyebrow gold">Participation lifecycle</div>' +
+    '<div class="lifecycle" aria-label="Announcement, Pre-Production, Production, Release, Between Seasons, Sequels or Spinoffs, Evergreen Community">' + timeline + '</div>' +
+    '<div class="life-takeaway">Participation never stops—so engagement, audience insight, and monetization don\'t stop either.</div>' +
+    '<div style="margin-top:32px"><button class="btn" onclick="next()">Continue →</button></div>' +
+  '</div>';
+}
+
 function approveDemo(b){
   b.style.background = "#2E7D4F"; b.style.color = "#fff"; b.style.borderColor = "#2E7D4F";
   b.textContent = "✓ Approved";
@@ -749,7 +797,7 @@ function scLocal(){
       '<div class="card center" style="padding:26px">' +
         '<div style="font-size:12px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--muted)">Enter your ZIP code</div>' +
         '<div style="display:flex; gap:10px; margin-top:14px">' +
-          '<input id="zipin" inputmode="numeric" maxlength="5" placeholder="02554" ' +
+          '<input id="zipin" inputmode="numeric" maxlength="5" placeholder="10001" ' +
             'style="flex:1; font:inherit; font-size:18px; font-weight:600; letter-spacing:.14em; text-align:center; padding:13px 14px; border-radius:14px; border:1px solid var(--line); background:var(--canvas); color:var(--ink); outline:none; min-width:0" ' +
             'onkeydown="if(event.key===\'Enter\')showLocal()">' +
           '<button class="btn gold" style="padding:13px 22px; white-space:nowrap" onclick="showLocal()">Show me</button>' +
@@ -763,7 +811,7 @@ function scLocal(){
 
 function showLocal(){
   var z = (document.getElementById("zipin").value || "").replace(/[^0-9]/g,"");
-  if (z.length < 5) z = "02554";
+  if (z.length < 5) z = "10001";
   var happenings = [
     ["☕","Genius Weed pop-up caf\u00E9","Tomorrow \u00B7 2.1 miles away \u00B7 first 50 fans get the limited-edition mug"],
     ["🎬","Fan showcase screening","Tonight \u00B7 creator-picked highlights on the big screen"],
@@ -849,6 +897,7 @@ function scEndNetwork(){
         '<div style="color:#fff; font-size:clamp(44px,8vw,68px); font-weight:700; letter-spacing:-.04em; margin-top:38px">EWE<span style="color:var(--gold)">y</span></div>' +
         '<div style="color:rgba(255,255,255,.6); font-size:13px; letter-spacing:.14em; text-transform:uppercase; font-weight:500; margin-top:12px">The Participation Layer for All IP</div>' +
         '<div style="color:rgba(255,255,255,.4); font-size:12.5px; margin-top:8px">Everyone Wins. Especially You.</div>' +
+        '<div style="max-width:650px; margin:24px auto 0; padding-top:22px; border-top:1px solid rgba(255,255,255,.14); color:rgba(255,255,255,.82); font-size:clamp(15px,2.3vw,18px); line-height:1.5; font-weight:600">EWEy transforms entertainment from a one-time release into a continuously evolving participation platform—expanding the lifetime value of every IP.</div>' +
       '</div>' +
       '<div id="nw4" style="opacity:0; transition:opacity 1.2s; margin-top:34px"><button class="btn white" onclick="restart()">Experience it again</button></div>' +
     '</div>';
@@ -908,11 +957,11 @@ function render(){
   else if (id === "create") scCreate();
   else if (id === "mosaic") scMosaic();
   else if (id === "ai") scAI();
-  else if (id === "continues") scContinues();
   else if (id === "win") scWin();
   else if (id === "local") scLocal();
   else if (id === "beyond") scBeyond();
   else if (id === "creator") scCreator();
+  else if (id === "lifecycle") scLifecycle();
   else if (id === "end") scEnd();
   el.classList.remove("scenein"); void el.offsetWidth; el.classList.add("scenein");
 }
