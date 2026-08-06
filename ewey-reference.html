@@ -238,7 +238,7 @@ var WORLDS = {
   ul:{name:"Unleashed", genre:"Animated Comedy", grad:"linear-gradient(135deg,#7A2E12 0%,#D96C2C 55%,#F2B267 100%)"},
   lf:{name:"The Last Future", genre:"Sci-Fi Mystery", grad:"linear-gradient(135deg,#0D1033 0%,#3A2E8C 55%,#7C6CD9 100%)"}
 };
-var CATEGORIES = [["🎬","Movies & TV"],["🐶","Unleashed"],["🏈","Sports"],["🎵","Music"],["🎙️","Podcasts"],
+var CATEGORIES = [["🎬","Film"],["📺","Series"],["🏈","Sports"],["🎵","Music"],["🎙️","Podcasts"],
   ["📚","Books"],["🎥","Documentaries"],["📰","Journalism"],["👗","Fashion"]];
 var SUPERPOWERS = [
   {id:"perform", icon:"🎭", name:"Perform", sub:"One-minute videos · acting · comedy · improv"},
@@ -271,8 +271,8 @@ var PEEK = {
   lf:["Hidden Clues Hunt — find what unlocks the universe.","Design a Parallel Civilization — culture, tech, language.","Intercepted Transmission — you've decoded something. What does it say?"]
 };
 var CATEGORY_PAGES = {
-  "Movies & TV":{league:"Join the Official Story League",mvp:"Story World MVP",signature:"Become an Official Background Extra in the Next Episode or Film.",signatureCopy:"One fan will be invited to appear as an official background extra in an upcoming production.",participate:["Recreate a favorite scene in another time period.","Perform the scene as a comedy, western, musical or sci-fi.","Play one of the characters in your own style.","Show what another person in that world might be doing during the same moment.","Design official merchandise.","Create an alternate movie poster."],experiences:["Lunch with one of the actors.","Visit the set.","Become an official background extra.","Meet the creator.","Attend the premiere.","Featured in the Official Fan Showcase.","Included in creator-curated ‘Best Of’ compilations on official social channels."]},
-  "Unleashed":{league:"Join the National Mutt League",mvp:"Dog MVP",signature:"Your Dog Becomes “Dog of the Week” Inside the National Mutt League.",signatureCopy:"Your dog gets an official player card, social media feature, and appears in the community spotlight.",participate:["Introduce your dog.","Show your dog’s best trick.","Record your dog’s post-game interview.","Design your dog’s official player card.","Celebrate your dog’s game-day routine."],experiences:["Featured Dog of the Week.","Meet the creators.","Signed merchandise.","VIP fan events.","Featured in the Official Fan Showcase."],credits:"Use the same credits as Genius Weed."},
+  "Film":{league:"Join the Official Film League",mvp:"Film World MVP",signature:"Become an Official Background Extra in an Upcoming Film.",signatureCopy:"One fan will be invited to appear as an official background extra in an upcoming production.",participate:["Recreate a favorite scene in another time period.","Perform the scene as a comedy, western, musical or sci-fi.","Play one of the characters in your own style.","Show what another person in that world might be doing during the same moment.","Design official merchandise.","Create an alternate movie poster."],experiences:["Lunch with one of the actors.","Visit the set.","Become an official background extra.","Meet the creator.","Attend the premiere.","Featured in the Official Fan Showcase.","Included in creator-curated ‘Best Of’ compilations on official social channels."]},
+  "Series":{league:"Join the Official Story League",mvp:"Story World MVP",signature:"Become an Official Background Extra in the Next Episode.",signatureCopy:"One fan will be invited to appear as an official background extra in an upcoming episode.",participate:["Recreate a favorite scene in another time period.","Perform the scene as a comedy, western, musical or sci-fi.","Play one of the characters in your own style.","Show what another person in that world might be doing during the same moment.","Design official merchandise.","Create an alternate series poster."],experiences:["Lunch with one of the actors.","Visit the set.","Become an official background extra.","Meet the creator.","Attend the premiere.","Featured in the Official Fan Showcase.","Included in creator-curated ‘Best Of’ compilations on official social channels."],examples:true},
   "Sports":{league:"Join the Official Fan League",mvp:"Fan MVP",signature:"Become the Official Fan of the Game.",signatureCopy:"Your video appears on the team’s social channels.",participate:["Show your game-day tradition.","Tailgate Challenge.","Stadium Check-In.","Fan Celebration Challenge.","Team Spirit Challenge."],experiences:["Meet your favorite athlete.","Sideline passes.","Locker room tour.","VIP tickets.","Signed jersey.","Featured in the Official Fan Showcase.","Included in weekly fan highlight compilations."]},
   "Music":{league:"Join the Official Music League",leagueItems:["Weekly Artist Challenges","Concert Check-Ins","XP","Badges","Leaderboards"],signature:"Perform with Your Favorite Artist.",signatureCopy:"Your dance appears behind them on the concert screens. Your vocals become part of the audience choir. Your fan video opens the concert. Your artwork becomes the official lyric video.",participate:["Show us your dance moves for a chance to appear on the concert Jumbotron.","Sing the chorus in a completely different musical style.","Perform your own version inspired by the song.","Recreate the music video in your own way.","Design official tour merchandise.","Design the next concert poster."],experiences:["Appear on the concert Jumbotron.","Meet the artist.","Lunch with the artist.","Backstage passes.","VIP concert tickets.","Featured in the Artist’s Official Fan Showcase.","Included in official concert highlight reels and social compilations."]},
   "Podcasts":{league:"Join the Official Podcast League",leagueItems:["Listening Streaks","Weekly Discussions","XP","Badges","Leaderboards"],signature:"Co-Host the Opening Five Minutes of an Episode.",signatureCopy:"Or your question becomes the episode opener. Your story is featured. Your voice appears in the official episode.",participate:["Record your reaction.","Share your biggest takeaway.","Tell your own story inspired by the episode.","Submit questions for future guests.","Recommend future topics.","Join community discussions."],experiences:["Meet the host.","Attend a live recording.","Live virtual Q&A.","Personal video message.","Bonus content.","Featured in the Podcast Community Showcase.","Included in the week’s best listener moments."]},
@@ -385,6 +385,27 @@ function listItems(items){
   return items.map(function(item){ return '<li>' + item + '</li>'; }).join("");
 }
 
+function seriesExamples(){
+  var descriptions = {
+    gw:"A comedy series centered on an eccentric café community, where fans can perform, design, write, and create alongside the official story world.",
+    ul:"An animated comedy that turns dogs into the stars of their own league, with fan challenges, player cards, and official community recognition.",
+    lf:"A sci-fi mystery built around hidden clues, parallel civilizations, and intercepted transmissions that invite fans deeper into its universe."
+  };
+  return '<section class="page-section"><div class="eyebrow gold">Series examples</div><h2>Choose a story world</h2><div class="grid worlds">' + ["gw","ul","lf"].map(function(id){
+    var w = WORLDS[id];
+    return '<div class="card click" style="padding:0; overflow:hidden" onclick="openSeriesWorld(\'' + id + '\')" role="button" tabindex="0">' +
+      '<div style="height:90px; background:' + w.grad + '"></div><div style="padding:18px"><div style="font-weight:700; font-size:19px">' + w.name + '</div>' +
+      '<div style="font-size:12.5px; color:var(--gold); margin-top:3px">' + w.genre + '</div><div style="font-size:14px; color:var(--muted); line-height:1.5; margin-top:9px">' + descriptions[id] + '</div>' +
+      '<div style="font-size:13px; font-weight:600; color:var(--gold); margin-top:12px">Explore this series →</div></div></div>';
+  }).join("") + '</div></section>';
+}
+
+function openSeriesWorld(id){
+  closeParticipation();
+  if (id === "gw") go(3);
+  else openPeek(id);
+}
+
 function openParticipation(name){
   var data = CATEGORY_PAGES[name];
   if (!data) return;
@@ -392,15 +413,15 @@ function openParticipation(name){
   var m = document.createElement("div");
   m.id = "participation-page"; m.className = "participation-page";
   var signature = data.signature ? '<section class="card page-section signature"><div class="eyebrow gold">⭐ Signature Experience</div><div class="signature-title">' + data.signature + '</div><div class="signature-copy">' + data.signatureCopy + '</div></section>' : '';
-  var credits = data.credits ? '<div class="credits"><b>Credits · Unleashed</b><br>Created by Cheryl Fudge<br>Showrunner: Donick Cary — Writer/Producer, The Simpsons, Parks and Recreation, Silicon Valley, and Late Show with David Letterman.<br>Producer: Mike Rosenstein — Founder, Sunset Rose Pictures; former Head of Digital at Red Hour Films; producer of Genius Weed and Unleashed.</div>' : '';
   m.innerHTML = '<button class="close-page" onclick="closeParticipation()">← All worlds</button>' +
     '<div class="page-wrap"><header class="page-hero"><div class="eyebrow gold">' + name + '</div><h1>Participate</h1></header>' +
     signature +
     '<section class="card page-section"><h2>Participate</h2><ul>' + listItems(data.participate) + '</ul></section>' +
     '<section class="card page-section"><h2>' + data.league + '</h2><ul>' + listItems(leagueItems) + '</ul></section>' +
     '<section class="card page-section"><h2>Possible Official Experiences &amp; Recognition</h2><ul>' + listItems(data.experiences) + '</ul></section>' +
+    (data.examples ? seriesExamples() : '') +
     '<div class="showcase-line">Compete to be featured in the Official Fan Showcase—creator-curated collections celebrating the most original fan participation across every story world.</div>' +
-    '<div class="canon">Official participation alongside the canon.<br>Never rewriting it. Always celebrating it.</div>' + credits +
+    '<div class="canon">Official participation alongside the canon.<br>Never rewriting it. Always celebrating it.</div>' +
     '</div>';
   document.body.appendChild(m);
 }
@@ -419,7 +440,7 @@ function scStoryWorld(){
     var badge = id === "gw" ? '<div style="position:absolute; top:12px; left:12px"><span class="chip"><span class="dot"></span>Featured demo</span></div>' : "";
     var cta = '<div style="font-size:13px; font-weight:600; margin-top:12px; color:var(--gold)">' + (id === "gw" ? "Enter the full experience" : "Explore participation") + ' &rarr;</div>';
     var stateClass = "click";
-    var action = id === "gw" ? ' onclick="go(3)" role="button" tabindex="0"' : (id === "ul" ? ' onclick="openParticipation(\'Unleashed\')" role="button" tabindex="0"' : ' onclick="openPeek(\'lf\')" role="button" tabindex="0"');
+    var action = id === "gw" ? ' onclick="go(3)" role="button" tabindex="0"' : ' onclick="openPeek(\'' + id + '\')" role="button" tabindex="0"';
     var credit = id === "gw" ? '<div style="font-size:11px; color:var(--muted); line-height:1.45; margin-top:13px; padding-top:11px; border-top:1px solid var(--line)">Created by Cheryl Fudge · Showrunner: Donick Cary · Producer: Mike Rosenstein</div>' :
       (id === "ul" ? '<div style="font-size:11px; color:var(--muted); line-height:1.45; margin-top:13px; padding-top:11px; border-top:1px solid var(--line)">Created by Cheryl Fudge · Showrunner: Donick Cary · Producer: Mike Rosenstein</div>' : '<div style="font-size:11px; color:var(--muted); line-height:1.45; margin-top:13px; padding-top:11px; border-top:1px solid var(--line)">Created by Cheryl Fudge · Co-Created by Lynda Levy</div>');
     return '<div class="card ' + stateClass + ' rise" style="padding:0; overflow:hidden; animation-delay:' + (i*90) + 'ms"' + action + '>' +
@@ -453,6 +474,7 @@ function openPeek(id){
       '<div style="font-weight:700; font-size:20px; margin-top:12px">' + w.name + '</div>' +
       '<div style="font-size:13px; color:var(--muted); margin-top:2px">Every world runs on the same engine — with experiences native to its own characters and fans.</div>' +
       '<div style="margin-top:16px; display:grid; gap:10px">' + items + '</div>' +
+      (id === "ul" ? '<div class="credits"><b>Unleashed</b><br>Created by Cheryl Fudge<br>Showrunner: Donick Cary<br>Producer: Mike Rosenstein</div>' : '') +
       (id === "lf" ? '<div class="credits"><b>The Last Future</b><br>Created by Cheryl Fudge<br>Co-Created by Lynda Levy</div>' : '') +
       '<div style="margin-top:20px"><button class="btn" style="width:100%" onclick="document.getElementById(\'peek\').remove(); go(3)">Take the full walkthrough &rarr;</button></div>' +
       '<div style="margin-top:12px; text-align:center"><button onclick="document.getElementById(\'peek\').remove()" style="font:inherit; font-size:13px; font-weight:600; color:var(--muted); background:none; border:none; cursor:pointer">Back to story worlds</button></div>' +
